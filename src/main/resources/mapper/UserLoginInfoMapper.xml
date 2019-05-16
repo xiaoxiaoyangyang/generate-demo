@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sensetime.senseguard.entiydemo.mapper.UserLoginInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sensetime.senseguard.entiydemo.entity.UserLoginInfo">
+    <id column="login_info_id" jdbcType="BIGINT" property="loginInfoId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="state" jdbcType="SMALLINT" property="state" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sensetime.senseguard.entiydemo.entity.UserLoginInfo">
+    <result column="user_info" jdbcType="LONGVARCHAR" property="userInfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    login_info_id, user_id, state
+  </sql>
+  <sql id="Blob_Column_List">
+    user_info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from info_user_login_info
+    where login_info_id = #{loginInfoId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from info_user_login_info
+    where login_info_id = #{loginInfoId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.senseguard.entiydemo.entity.UserLoginInfo">
+    insert into info_user_login_info (login_info_id, user_id, state, 
+      user_info)
+    values (#{loginInfoId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{state,jdbcType=SMALLINT}, 
+      #{userInfo,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.sensetime.senseguard.entiydemo.entity.UserLoginInfo">
+    update info_user_login_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="userInfo != null">
+        user_info = #{userInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where login_info_id = #{loginInfoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sensetime.senseguard.entiydemo.entity.UserLoginInfo">
+    update info_user_login_info
+    set user_id = #{userId,jdbcType=BIGINT},
+      state = #{state,jdbcType=SMALLINT},
+      user_info = #{userInfo,jdbcType=LONGVARCHAR}
+    where login_info_id = #{loginInfoId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.senseguard.entiydemo.entity.UserLoginInfo">
+    update info_user_login_info
+    set user_id = #{userId,jdbcType=BIGINT},
+      state = #{state,jdbcType=SMALLINT}
+    where login_info_id = #{loginInfoId,jdbcType=BIGINT}
+  </update>
+</mapper>

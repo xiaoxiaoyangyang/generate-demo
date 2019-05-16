@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sensetime.senseguard.entiydemo.mapper.UserTokenInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sensetime.senseguard.entiydemo.entity.UserTokenInfo">
+    <id column="token_id" jdbcType="BIGINT" property="tokenId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="access_token" jdbcType="VARCHAR" property="accessToken" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    token_id, user_id, access_token, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from info_user_token
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from info_user_token
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.senseguard.entiydemo.entity.UserTokenInfo">
+    insert into info_user_token (token_id, user_id, access_token, 
+      create_time)
+    values (#{tokenId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{accessToken,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.sensetime.senseguard.entiydemo.entity.UserTokenInfo">
+    update info_user_token
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="accessToken != null">
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.senseguard.entiydemo.entity.UserTokenInfo">
+    update info_user_token
+    set user_id = #{userId,jdbcType=BIGINT},
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where token_id = #{tokenId,jdbcType=BIGINT}
+  </update>
+</mapper>

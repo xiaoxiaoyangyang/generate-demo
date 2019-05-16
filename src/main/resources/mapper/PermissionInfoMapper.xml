@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sensetime.senseguard.entiydemo.mapper.PermissionInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sensetime.senseguard.entiydemo.entity.PermissionInfo">
+    <id column="permission_id" jdbcType="BIGINT" property="permissionId" />
+    <result column="system_id" jdbcType="BIGINT" property="systemId" />
+    <result column="module_id" jdbcType="BIGINT" property="moduleId" />
+    <result column="type_id" jdbcType="BIGINT" property="typeId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="uri" jdbcType="VARCHAR" property="uri" />
+    <result column="relation" jdbcType="VARCHAR" property="relation" />
+    <result column="state" jdbcType="SMALLINT" property="state" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="BIGINT" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="BIGINT" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="action" jdbcType="SMALLINT" property="action" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    permission_id, system_id, module_id, type_id, name, code, uri, relation, state, remark, 
+    create_by, create_time, update_by, update_time, action
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from info_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from info_permission
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.sensetime.senseguard.entiydemo.entity.PermissionInfo">
+    insert into info_permission (permission_id, system_id, module_id, 
+      type_id, name, code, 
+      uri, relation, state, 
+      remark, create_by, create_time, 
+      update_by, update_time, action
+      )
+    values (#{permissionId,jdbcType=BIGINT}, #{systemId,jdbcType=BIGINT}, #{moduleId,jdbcType=BIGINT}, 
+      #{typeId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{uri,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, #{state,jdbcType=SMALLINT}, 
+      #{remark,jdbcType=VARCHAR}, #{createBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{action,jdbcType=SMALLINT}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.sensetime.senseguard.entiydemo.entity.PermissionInfo">
+    update info_permission
+    <set>
+      <if test="systemId != null">
+        system_id = #{systemId,jdbcType=BIGINT},
+      </if>
+      <if test="moduleId != null">
+        module_id = #{moduleId,jdbcType=BIGINT},
+      </if>
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="uri != null">
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null">
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=SMALLINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sensetime.senseguard.entiydemo.entity.PermissionInfo">
+    update info_permission
+    set system_id = #{systemId,jdbcType=BIGINT},
+      module_id = #{moduleId,jdbcType=BIGINT},
+      type_id = #{typeId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      uri = #{uri,jdbcType=VARCHAR},
+      relation = #{relation,jdbcType=VARCHAR},
+      state = #{state,jdbcType=SMALLINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      action = #{action,jdbcType=SMALLINT}
+    where permission_id = #{permissionId,jdbcType=BIGINT}
+  </update>
+
+  <resultMap id="rolePermission" type="com.sensetime.senseguard.entiydemo.entity.RolePermission">
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
+  </resultMap>
+  <sql id="rolePermissionSql">
+		SELECT
+		role_id,
+		permission_id
+		FROM info_r_role_permission
+
+	</sql>
+
+  <select id="queryPermissionId" resultMap="rolePermission" >
+    <include refid="rolePermissionSql" />
+    WHERE role_id = #{roleId}
+  </select>
+
+  <select id="queryPermissionInfoByIds" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from info_permission
+    WHERE permission_id IN
+    <foreach collection="ids" item="item" index="id" open="("
+             close=")" separator=", ">
+      <![CDATA[
+			#{item}
+			]]>
+    </foreach>
+
+  </select>
+</mapper>
